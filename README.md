@@ -8,9 +8,9 @@ The main folder contain:
 - **text.txt**: Sample text for test.
 
 ## **Makefile** Rules
-- **make**: Compile the program and generate an ./gnl.
+- **make**: Compile the program and generate gnl.
 - **clean**: Remove binary objects.
-- **fclean**: Call **clean** and remove ./gnl.
+- **fclean**: Call **clean** and remove gnl.
 - **run**: Call ./gnl.
 - **run bsize=n**: Call **run** and recompile the program with -D BUFFER_SIZE=n.
 > [!NOTE]
