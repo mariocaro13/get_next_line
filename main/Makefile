@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address 
 
 BUFFER = $(if $(bsize),-D BUFFER_SIZE=$(bsize))
 
