@@ -28,6 +28,57 @@ int	ft_get_strlen(char *str)
 	return (i);
 }
 
+/**
+ * Retrieves the last node of a linked list.
+ * Iterates each node of the linked list starting from the head
+ * pointed by 'list'.Is follows the 'next' pointers
+ * of each node until it reaches the last node, identified by'next' pointer being NULL. 
+ *
+ * @param list A double pointer to the first node of the linked list.
+ *
+ * @return The last node of the list if the list is not empty; otherwise, NULL.
+ * 	If the 'list' pointer is NULL, indicating an empty or non-existent list,
+ * 	returns NULL immediately.
+ */
+t_list	*ft_get_last_node(t_list **list)
+{
+	t_list *node;
+
+	if (!list)
+		return (NULL);
+	node = *list;
+	while (node->next != NULL)
+	{
+		node = node->next;
+	}
+	return (node);
+}
+
+//Create a new node and add it to the last ocurrence of the list.
+//	The new node will be setted as:
+//		Content = char *'content'
+//		Next = 'NULL'
+//In case the content of the last node if null set it to str: 'content'
+void	ft_append_node(t_list *last, char *content)
+{
+	t_list	*new_node;
+
+	if (last->content == NULL && last)
+		last->content = content;
+	else
+	{
+		new_node = malloc(sizeof(t_list));
+		if (!new_node)
+		{
+			free(new_node);
+			return ;
+		}
+		last->next = new_node;
+		new_node->content = content;
+		new_node->next = NULL;
+	}
+}
+
 //Create List create and sets buffers value in content and create a new NULL Node to the list
 //
 void	ft_create_list(t_list **list, int fd)
@@ -42,59 +93,18 @@ void	ft_create_list(t_list **list, int fd)
 		free(buffer);
 		return ;
 	}
-	while (read(fd, buffer, BUFFER_SIZE) > 0 && !find_char(buffer, '\n'))
+	if (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
-		t_list	*new_node;
-		t_list	*current_node;
-
-		current_node = *list;
-		if (current_node->content == NULL)
-		{
-			current_node->content = buffer;
-			current_node->next = NULL;
-
-			printf("New Node: %p\n", &new_node);
-			printf("Current Node: %p\n", &current_node);
-			printf("Current Content: %s\n", current_node->content);
-			printf("Buffer: %s\n", buffer);
-			printf("Current Next: %p\n", current_node->next);
-			printf("*List: %p\n\n", *list);
-		}
-		else
-		{
-			new_node = malloc(sizeof(t_list));
-			if (!new_node)
-			{
-				free (buffer);
-				return ;
-			}
-			new_node->content = buffer;
-			new_node->next = NULL;
-
-			printf("New Node: %p\n", &new_node);
-			printf("Current Node: %p\n", &current_node);
-			printf("Current Content: %s\n", current_node->content);
-			printf("Buffer: %s\n", buffer);
-			printf("Current Next: %p\n", current_node->next);
-			printf("*List: %p\n\n", *list);
-			current_node->next = new_node;
-
-			printf("New Node: %p\n", &new_node);
-			printf("Current Node: %p\n", &current_node);
-			printf("Current Content: %s\n", current_node->content);
-			printf("Buffer: %s\n", buffer);
-			printf("Current Next: %p\n", current_node->next);
-			printf("*List: %p\n\n", *list);
-			list = &(new_node);
-
-			printf("New Node: %p\n", &new_node);
-			printf("New Content: %s\n", new_node->content);
-			printf("Buffer: %s\n", buffer);
-			printf("New Next: %p\n", new_node->next);
-			printf("*List: %p\n\n", *list);
-	
-		}
+		printf("Create list:\n");	
+		printf("Last Node: %p\n", ft_get_last_node(list));
+		printf("Last Content: %s\n\n", ft_get_last_node(list)->content);
+		ft_append_node(ft_get_last_node(list), buffer);
+		printf("Append: \n");
+		printf("Last Node: %p\n", ft_get_last_node(list));
+		printf("Last Content: %s\n\n", ft_get_last_node(list)->content);
 	}
+	if (!find_char(buffer, '\n'))
+		ft_create_list(list, fd);
 	free (buffer);
 }
 
@@ -153,15 +163,13 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	list = malloc(sizeof(t_list));
-	printf("List: %p\n", list);
-	printf("Content: %s\n\n", list->content);
 	ft_create_list(&list, fd);
 	if (!list)
 		return (NULL);
 	
 	//Fetch line from list
-//	line = ft_get_line(list);
-//	printf("Line: %s", line);
+	line = ft_get_line(list);
+	printf("Line: %s", line);
 	//Clean list
 //	ft_clean_list(&list);
 	return (line);
