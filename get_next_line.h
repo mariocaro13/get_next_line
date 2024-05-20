@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+#include <stdio.h>
 
 typedef struct s_list
 {
@@ -26,19 +27,19 @@ typedef struct s_list
 char	*get_next_line(int fd);
 
 /**
- * Retrieves the last node of a linked list.
- * Iterates each node of the linked list starting from the head
- * pointed by 'list'.Is follows the 'next' pointers
+ * Return the last node of a linked list.
+ * Iterates each node of the linked list starting from the node
+ * pointed by 'node'. Is follows the 'next' pointers
  * of each node until it reaches the last node,
  * identified by'next' pointer being NULL.
  *
- * @param list Double pointer to the first node of the linked list.
+ * @param list Pointer to the first node to start iterate.
  *
  * @return The last node of the list if the list is not empty; otherwise, NULL.
- *      If the 'list' pointer is NULL, indicating an empty or non-existent list,
+ *      If the 'node' pointer is NULL, indicating an empty or non-existent list,
  *      returns NULL immediately.
  */
-t_list	*ft_get_last_node(t_list **list);
+t_list	*ft_get_last_node(t_list *node);
 
 /**
  * Creates a list untill find a ('\n') in 'buffer'.
@@ -82,7 +83,7 @@ char	*ft_get_line(t_list *node);
  * @param c The character to search for.
  * @return 1 if the character is found in the string, 0 otherwise.
  */
-int		find_char(const char *str, const char c);
+int		ft_find_char(const char *str, const char c);
 
 /**
  * Calculates the length of a null-terminated string.
@@ -92,4 +93,6 @@ int		find_char(const char *str, const char c);
  */
 int		ft_get_strlen(char *str);
 
+char	*ft_iterate_str_to_newline(char *str);
+void	ft_clean_list(t_list **list);
 #endif

@@ -1,5 +1,7 @@
 #include "get_next_line.h"
 
+#include <stdio.h>
+
 void	ft_append_node(t_list *last, char *content)
 {
 	t_list	*new_node;
@@ -33,8 +35,8 @@ void	ft_create_list(t_list **list, int fd)
 		return ;
 	}
 	if (read(fd, buffer, BUFFER_SIZE) > 0)
-		ft_append_node(ft_get_last_node(list), buffer);
-	if (!find_char(buffer, '\n'))
+		ft_append_node(ft_get_last_node(*list), buffer);
+	if (!ft_find_char(buffer, '\n'))
 		ft_create_list(list, fd);
 }
 
@@ -42,15 +44,15 @@ int	ft_get_linelen(t_list *node, int len)
 {
 	int	i;
 
-	if (!node)
+	if (!node || !node->content)
 		return (len);
 	i = 0;
 	while (node->content[i] != '\n')
 	{
-		len ++;
-		i++;
 		if (node->content[i] == '\0')
 			return (ft_get_linelen(node->next, len));
+		len++;
+		i++;
 	}
 	return (len);
 }
@@ -88,15 +90,16 @@ char	*get_next_line(int fd)
 	static t_list	*list;
 	char			*line;
 
-	if (!fd || fd < 0)
+	if (fd < 0)
 		return (NULL);
 	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	list = malloc(sizeof(t_list));
+	if (!list)
+		list = malloc(sizeof(t_list));
 	ft_create_list(&list, fd);
 	if (!list)
 		return (NULL);
 	line = ft_get_line(list);
-//	ft_clean_list(&list);
+	ft_clean_list(&list);
 	return (line);
 }

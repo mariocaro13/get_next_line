@@ -14,9 +14,9 @@ OBJECTS = $(SOURCE:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	 $(CC) $(CFLAGS) $(BUFFER) $(OBJECTS) -o $(NAME)
+	 $(CC) -g $(CFLAGS) $(BUFFER) $(OBJECTS) -o $(NAME)
 
-run:	re
+run: re
 	@if [ "$(bsize)" ]; then \
 		$(MAKE) fclean --silent; \
 		$(MAKE) all CFLAGS="$(CFLAGS) -D BUFFER_SIZE=$(bsize)" --silent; \

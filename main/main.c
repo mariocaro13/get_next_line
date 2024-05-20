@@ -13,9 +13,10 @@ int	main(void)
 	if (fd > 0)
 	{
 		i = 1;
-		while (i <= 2)
+		while (i <= 4)
 		{
-			printf("Line %i: %s\n", i++, get_next_line(fd));
+			printf("Line %i: %s\n", i, get_next_line(fd));
+			i++;
 		}
 	}
 	close(fd);

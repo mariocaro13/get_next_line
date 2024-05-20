@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 
-int	find_char(const char *str, const char c)
+int	ft_find_char(const char *str, const char c)
 {
 	int	i;
 
@@ -28,16 +28,45 @@ int	ft_get_strlen(char *str)
 	return (i);
 }
 
-t_list	*ft_get_last_node(t_list **list)
+t_list	*ft_get_last_node(t_list *node)
 {
-	t_list	*node;
-
-	if (!list)
+	if (!node)
 		return (NULL);
-	node = *list;
 	while (node->next != NULL)
-	{
 		node = node->next;
-	}
 	return (node);
+}
+
+char	*ft_iterate_str_to_newline(char *str)
+{
+	if (!str)
+		return (NULL);
+	while (*str != '\0' && *str != '\n')
+		str++;
+	if (*str == '\n')
+		return (str + 1);
+	return (NULL);
+}
+
+void	ft_clean_list(t_list **list)
+{
+	t_list	*current_node;
+	t_list	*new_head;
+	char	*str;
+
+	if (!list || !*list)
+		return ;
+	str = ft_iterate_str_to_newline(ft_get_last_node(*list)->content);
+	while (*list)
+	{
+		current_node = *list;
+		*list = current_node->next;
+		free(current_node);
+	}
+	new_head = malloc(sizeof(t_list));
+	if (!new_head)
+		return ;
+	new_head->content = str;
+	new_head->next = NULL;
+	*list = new_head;
 }
