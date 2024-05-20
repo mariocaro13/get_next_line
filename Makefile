@@ -8,6 +8,9 @@ all:
 run:
 	$(MAKE) -C $(DIR) run $(BSIZE_FLAG) --silent
 
+valgrind:
+	$(MAKE) -C $(DIR) valgrind --silent
+
 clean:
 	$(MAKE) -C $(DIR) clean --silent
 
@@ -18,5 +21,5 @@ re: fclean all
 
 .DEFAULT_GOAL := all
 
-.PHONY: all clean fclean re run bsize
+.PHONY: all clean fclean re run bsize valgrind
 .SILENT:
