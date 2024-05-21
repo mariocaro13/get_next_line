@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/21 12:06:55 by mcaro-ro          #+#    #+#             */
+/*   Updated: 2024/05/21 12:46:51 by mcaro-ro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 int	ft_find_char(const char *str, const char c)
@@ -61,6 +73,7 @@ void	ft_clean_list(t_list **list)
 	{
 		current_node = *list;
 		*list = current_node->next;
+//		free(current_node->content);
 		free(current_node);
 	}
 	new_head = malloc(sizeof(t_list));

@@ -1,6 +1,16 @@
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/21 12:06:41 by mcaro-ro          #+#    #+#             */
+/*   Updated: 2024/05/21 12:57:35 by mcaro-ro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
+#include "get_next_line.h"
 
 void	ft_append_node(t_list *last, char *content)
 {
@@ -28,7 +38,7 @@ void	ft_create_list(t_list **list, int fd)
 
 	if (!list || fd < 0)
 		return ;
-	buffer = malloc(BUFFER_SIZE * sizeof(char));
+	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer)
 	{
 		free(buffer);
@@ -36,6 +46,7 @@ void	ft_create_list(t_list **list, int fd)
 	}
 	if (read(fd, buffer, BUFFER_SIZE) > 0)
 		ft_append_node(ft_get_last_node(*list), buffer);
+	buffer[BUFFER_SIZE + 1] = '\0';
 	if (!ft_find_char(buffer, '\n'))
 		ft_create_list(list, fd);
 }
