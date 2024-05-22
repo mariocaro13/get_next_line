@@ -12,6 +12,27 @@
 
 #include "get_next_line.h"
 
+int	ft_find_char_in_list(const t_list *node, const char c)
+{
+	int	i;
+
+	if (!node)
+		return (0);
+	while (node)
+	{
+		i = 0;
+		while (node->content[i] && i < BUFFER_SIZE)
+		{
+			if (node->content[i] == c)
+				return (1);
+			i++;
+		}
+		node = node->next;
+	}
+	return (0);
+}
+
+
 int	ft_find_char(const char *str, const char c)
 {
 	int	i;

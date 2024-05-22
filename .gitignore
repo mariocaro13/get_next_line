@@ -1,3 +1,6 @@
+gnlTester
+*.swp
+main/gnl
 # Prerequisites
 *.d
 

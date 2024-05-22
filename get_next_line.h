@@ -63,30 +63,30 @@ void	ft_create_list(t_list **list, int fd);
 
 /**
  * Adds a new node to the end of the list.
+ * In case the end of the list is NULL set the head of the list to the new node.
  *
- * @param last Pointer to the last node in the list (can be NULL).
+ * @param list_head Pointer to the head node of the list (can be NULL).
  * @param content Char pointer with the content for the new node.
  */
-void	ft_append_node(t_list *last, char *conten);
+void	ft_append_node(t_list **list_head, char *conten);
 
 /**
  * Calculates the length of a line within the content of a linked list node.
  *
  * @param node Pointer to the current node (can be NULL).
- * @param len Int of the current accumulated length (initially 0).
  * @return Length of the line within the content.
  */
-int		ft_get_linelen(t_list *node, int len);
+int		ft_get_linelen(t_list *node);
 
 /**
- * Extracts a line from the content of a linked list node.
+ * Setts a str with the content of a linked list node untill a new line.
  *
  * @param node Pointer to the current node (can be NULL).
- * @return Pointer to the extracted line (allocated using malloc),
- *  or NULL if node is NULL.
- *         The caller is responsible for freeing the allocated memory.
+ * @param str Char pointer to the str to be setted.
+ * @retrun If the 'node' pointer or 'str' is NULL, indicating an empty or non-existent list,
+ *      returns immediately.
  */
-char	*ft_get_line(t_list *node);
+void	ft_set_line(t_list *node, char *str);
 
 /**
  * Searches a character in a given string.
@@ -96,6 +96,15 @@ char	*ft_get_line(t_list *node);
  * @return 1 if the character is found in the string, 0 otherwise.
  */
 int		ft_find_char(const char *str, const char c);
+
+/**
+ * Searches a character in a list by starting by a given node.
+ *
+ * @param node Pointer to the input node (can be NULL).
+ * @param c The character to search for.
+ * @return 1 if the character is found in the string, 0 otherwise.
+ */
+int		ft_find_char_in_list(const t_list *node, const char c);
 
 /**
  * Calculates the length of a null-terminated string.
