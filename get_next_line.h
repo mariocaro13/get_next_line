@@ -20,7 +20,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-////#include <stdio.h>
 
 typedef struct s_list
 {
@@ -83,19 +82,10 @@ int		ft_get_linelen(t_list *node);
  *
  * @param node Pointer to the current node (can be NULL).
  * @param str Char pointer to the str to be setted.
- * @retrun If the 'node' pointer or 'str' is NULL, indicating an empty or non-existent list,
+ * @retrun If 'node' or 'str' is NULL, indicating an empty or non-existent list,
  *      returns immediately.
  */
 void	ft_set_line(t_list *node, char *str);
-
-/**
- * Searches a character in a given string.
- *
- * @param str Pointer to the input string (can be NULL).
- * @param c The character to search for.
- * @return 1 if the character is found in the string, 0 otherwise.
- */
-int		ft_find_char(const char *str, const char c);
 
 /**
  * Searches a character in a list by starting by a given node.
@@ -106,14 +96,7 @@ int		ft_find_char(const char *str, const char c);
  */
 int		ft_find_char_in_list(const t_list *node, const char c);
 
-/**
- * Calculates the length of a null-terminated string.
- *
- * @param str Pointer to the input string (can be NULL).
- * @return Length of the string (number of characters), or 0 if str is NULL.
- */
-int		ft_get_strlen(char *str);
-
-char	*ft_iterate_str_to_newline(char *str);
-void	ft_clean_list(t_list **list);
+void	ft_free_list(t_list **list_head);
+void	ft_set_content_cleaned(t_list **list_head, char *str);
+void	ft_clean_list(t_list **list_head);
 #endif

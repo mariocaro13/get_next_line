@@ -21,7 +21,7 @@ int	ft_find_char_in_list(const t_list *node, const char c)
 	while (node)
 	{
 		i = 0;
-		while (node->content[i] && i < BUFFER_SIZE)
+		while (node->content[i] && i < INT_MAX)
 		{
 			if (node->content[i] == c)
 				return (1);
@@ -30,35 +30,6 @@ int	ft_find_char_in_list(const t_list *node, const char c)
 		node = node->next;
 	}
 	return (0);
-}
-
-
-int	ft_find_char(const char *str, const char c)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_get_strlen(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i] && i < INT_MAX)
-		i++;
-	return (i);
 }
 
 t_list	*ft_get_last_node(t_list *node)
@@ -70,37 +41,58 @@ t_list	*ft_get_last_node(t_list *node)
 	return (node);
 }
 
-char	*ft_iterate_str_to_newline(char *str)
+void	ft_free_list(t_list **list_head)
 {
-	if (!str)
-		return (NULL);
-	while (*str != '\0' && *str != '\n')
-		str++;
-	if (*str == '\n')
-		return (str + 1);
-	return (NULL);
+	t_list	*aux;
+
+	if (!list_head)
+		return ;
+	while (*list_head)
+	{
+		aux = (*list_head)->next;
+		free((*list_head)->content);
+		free(*list_head);
+		*list_head = aux;
+	}
+	*list_head = NULL;
 }
 
-void	ft_clean_list(t_list **list)
+void	ft_set_content_cleaned(t_list **list_head, char *str)
 {
-	t_list	*current_node;
+	t_list	*last_node;
+	int		i_cont;
+	int		i_str;
+
+	last_node = ft_get_last_node(*list_head);
+	i_cont = 0;
+	while (last_node->content[i_cont] != '\n' && last_node->content[i_cont])
+		i_cont++;
+	i_str = 0;
+	while (last_node->content[i_cont] && last_node->content[i_cont + 1])
+		str[i_str++] = last_node->content[++i_cont];
+	str[i_str] = '\0';
+}
+
+void	ft_clean_list(t_list **list_head)
+{
 	t_list	*new_head;
 	char	*str;
 
-	if (!list || !*list)
+	if (!list_head)
 		return ;
-	str = ft_iterate_str_to_newline(ft_get_last_node(*list)->content);
-	while (*list)
-	{
-		current_node = *list;
-		*list = current_node->next;
-//		free(current_node->content);
-		free(current_node);
-	}
+	str = malloc(BUFFER_SIZE + 1);
 	new_head = malloc(sizeof(t_list));
-	if (!new_head)
+	if (!new_head || !str)
 		return ;
+	ft_set_content_cleaned(list_head, str);
 	new_head->content = str;
 	new_head->next = NULL;
-	*list = new_head;
+	ft_free_list(list_head);
+	if (new_head->content)
+		*list_head = new_head;
+	else
+	{
+		free(str);
+		free(new_head);
+	}
 }
