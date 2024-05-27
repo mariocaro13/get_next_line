@@ -16,21 +16,42 @@
 
 #include "../get_next_line.h"
 
-int	main(void)
+void	ft_read_all(int fd)
 {
-	int	fd;
+	char	*buffer;
+	int		i;
+
+	i = 1;
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return ;
+	while (read(fd, buffer, BUFFER_SIZE) > 0)
+	{
+		printf("Line %i: %s", i, get_next_line(fd));
+		i++;
+	}
+	free(buffer);
+}
+
+void	ft_read_n_lines(int fd, int nb)
+{
 	int	i;
 
-	fd = open("short_text.txt", O_RDONLY);
-	if (fd > 0)
+	i = 1;
+	while (i <= nb)
 	{
-		i = 1;
-		while (i <= 4)
-		{
-			printf("Line %i: %s", i, get_next_line(fd));
-			i++;
-		}
+		printf("Line %i: %s", i, get_next_line(fd));
+		i++;
 	}
+}
+
+int	main(void)
+{
+	int		fd;
+
+	fd = open("files/text", O_RDONLY);
+	if (fd > 0)
+		ft_read_n_lines(fd, 1);
 	close(fd);
 	return (0);
 }

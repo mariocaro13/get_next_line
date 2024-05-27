@@ -34,7 +34,7 @@ void	ft_append_node(t_list **list_head, char *content)
 void	ft_create_list(t_list **list, int fd)
 {
 	char	*buffer;
-	int		bytes_read;
+	ssize_t	bytes_read;
 
 	if (!list || fd < 0)
 		return ;
@@ -44,9 +44,9 @@ void	ft_create_list(t_list **list, int fd)
 		if (!buffer)
 			return ;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (!bytes_read)
+		if (bytes_read <= 0)
 		{
-			free(buffer);
+			free (buffer);
 			return ;
 		}
 		buffer[bytes_read] = '\0';
@@ -113,7 +113,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
 	ft_create_list(&list_head, fd);
 	if (!list_head)

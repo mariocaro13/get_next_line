@@ -88,7 +88,7 @@ void	ft_clean_list(t_list **list_head)
 	new_head->content = str;
 	new_head->next = NULL;
 	ft_free_list(list_head);
-	if (new_head->content)
+	if (new_head->content[0] != '\0')
 		*list_head = new_head;
 	else
 	{
