@@ -38,7 +38,7 @@ void	ft_create_list(t_list **list, int fd)
 
 	if (!list || fd < 0)
 		return ;
-	while (!ft_find_char_in_list(*list, '\n'))
+	while (!ft_find_char_in_list(*list, NEWLINE_CHAR))
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
 		if (!buffer)
@@ -49,7 +49,7 @@ void	ft_create_list(t_list **list, int fd)
 			free (buffer);
 			return ;
 		}
-		buffer[bytes_read] = '\0';
+		buffer[bytes_read] = NULL_TERMINATE;
 		ft_append_node(list, buffer);
 	}
 }
@@ -67,7 +67,7 @@ int	ft_get_linelen(t_list *node)
 		i = 0;
 		while (node->content[i])
 		{
-			if (node->content[i] == '\n')
+			if (node->content[i] == NEWLINE_CHAR)
 			{
 				len++;
 				return (len);
@@ -93,17 +93,17 @@ void	ft_set_line(t_list *node, char *str)
 		i_content = 0;
 		while (node->content[i_content])
 		{
-			if (node->content[i_content] == '\n')
+			if (node->content[i_content] == NEWLINE_CHAR)
 			{
-				str[i_str++] = '\n';
-				str[i_str] = '\0';
+				str[i_str++] = NEWLINE_CHAR;
+				str[i_str] = NULL_TERMINATE;
 				return ;
 			}
 			str[i_str++] = node->content[i_content++];
 		}
 		node = node->next;
 	}
-	str[i_str] = '\0';
+	str[i_str] = NULL_TERMINATE;
 }
 
 char	*get_next_line(int fd)
@@ -118,7 +118,7 @@ char	*get_next_line(int fd)
 	ft_create_list(&list_head, fd);
 	if (!list_head)
 		return (NULL);
-	line = malloc(ft_get_linelen(list_head) + 1);
+	line = malloc(ft_get_linelen(list_head) + NULL_TERMINATE_SIZE);
 	if (!line)
 		return (NULL);
 	ft_set_line(list_head, line);

@@ -60,17 +60,17 @@ void	ft_free_list(t_list **list_head)
 void	ft_set_content_cleaned(t_list **list_head, char *str)
 {
 	t_list	*last_node;
-	int		i_cont;
+	int		i_c;
 	int		i_str;
 
 	last_node = ft_get_last_node(*list_head);
-	i_cont = 0;
-	while (last_node->content[i_cont] != '\n' && last_node->content[i_cont])
-		i_cont++;
+	i_c = 0;
+	while (last_node->content[i_c] != NEWLINE_CHAR && last_node->content[i_c])
+		i_c++;
 	i_str = 0;
-	while (last_node->content[i_cont] && last_node->content[i_cont + 1])
-		str[i_str++] = last_node->content[++i_cont];
-	str[i_str] = '\0';
+	while (last_node->content[i_c] && last_node->content[i_c + 1])
+		str[i_str++] = last_node->content[++i_c];
+	str[i_str] = NULL_TERMINATE;
 }
 
 void	ft_clean_list(t_list **list_head)
@@ -80,7 +80,7 @@ void	ft_clean_list(t_list **list_head)
 
 	if (!list_head)
 		return ;
-	str = malloc(BUFFER_SIZE + 1);
+	str = malloc(BUFFER_SIZE + NULL_TERMINATE_SIZE);
 	new_head = malloc(sizeof(t_list));
 	if (!new_head || !str)
 		return ;

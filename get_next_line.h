@@ -21,6 +21,10 @@
 # include <stdlib.h>
 # include <limits.h>
 
+# define NEWLINE_CHAR '\n'
+# define NULL_TERMINATE '\0'
+# define NULL_TERMINATE_SIZE 1
+
 typedef struct s_list
 {
 	char			*content;
