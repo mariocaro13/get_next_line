@@ -6,7 +6,7 @@
 /*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 12:06:55 by mcaro-ro          #+#    #+#             */
-/*   Updated: 2024/05/21 12:46:51 by mcaro-ro         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:30:33 by mcaro-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	ft_set_content_cleaned(t_list **list_head, char *str)
 	int		i_c;
 	int		i_str;
 
+	if (!list_head)
+		return ;
 	last_node = ft_get_last_node(*list_head);
 	i_c = 0;
 	while (last_node->content[i_c] != NEWLINE_CHAR && last_node->content[i_c])
