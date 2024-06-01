@@ -21,12 +21,22 @@ SOURCE = main.c \
 	 ../get_next_line.c \
 	 ../get_next_line_utils.c \
 
+SBONUS =  ../get_next_line_bonus.c \
+	 ../get_next_line_utils_bonus.c \
+
 OBJECTS = $(SOURCE:.c=.o)
+
+BOBJECTS = $(SBONUS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	 $(CC) -g $(CFLAGS) $(BUFFER) $(OBJECTS) -o $(NAME)
+
+bonus: $(BOBJECTS)
+
+$(BOBJECTS):
+	$(CC) -g $(CFLAGS) $(BUFFER) $(BOBJECTS) -o $(NAME)
 
 run: re
 	@if [ "$(bsize)" ]; then \
@@ -47,4 +57,4 @@ fclean: clean
 re: fclean all
 
 .DEFAULT_GOAL := all
-.PHONY: all clean fclean re run bsize valgrind
+.PHONY: all clean fclean re run bonus bsize valgrind

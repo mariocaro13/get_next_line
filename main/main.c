@@ -49,9 +49,9 @@ int	main(void)
 {
 	int		fd;
 
-	fd = open("files/text", O_RDONLY);
+	fd = open("files/si.txt", O_RDONLY);
 	if (fd > 0)
-		ft_read_n_lines(fd, 1);
+		ft_read_all(fd);
 	close(fd);
 	return (0);
 }

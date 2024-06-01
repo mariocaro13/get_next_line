@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 12:07:15 by mcaro-ro          #+#    #+#             */
-/*   Updated: 2024/05/28 16:46:01 by mcaro-ro         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 # endif
 
 # include <unistd.h>
@@ -100,38 +88,7 @@ void	ft_set_line(t_list *node, char *str);
  */
 int		ft_find_char_in_list(const t_list *node, const char c);
 
-/**
- * Free the given list node by node.
- *
- * @param list_head Doble pointer to the head of the List (can be NULL).
- * @return If 'list_head' is NULL, indicating an empty or non-existent list,
- * 	returns immediately.
- */
 void	ft_free_list(t_list **list_head);
-
-/**
- * Setts a str with the content of a node after the new line.
- *
- * @param list_head Doble pointer to the head of the List (can be NULL).
- * @param str Char pointer to the str to be setted.
- * @return If 'list_head' is NULL, indicating an empty or non-existent list,
- * 	returns immediately.
- */
 void	ft_set_content_cleaned(t_list **list_head, char *str);
-
-/**
- * Create new list head with the content after the new line,
- * 	calling ft_set_content_cleaned.
- * Then free the list,
- * 	calling ft_free_list.
- * If the content of the new head is NULL, free 'str' and the new head.
- * 	else it setts the 'list_head' to the new head.
- *
- * @param list_head Doble pointer to the head of the List (can be NULL).
- * @return If 'list_head' is NULL, indicating an empty or non-existent list,
- * 	returns immediately.
- * @return If alloc of 'new_head' or 'str' fails, 
- * 	returns immediately.
- */
 void	ft_clean_list(t_list **list_head);
 #endif

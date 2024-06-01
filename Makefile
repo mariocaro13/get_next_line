@@ -17,6 +17,9 @@ BSIZE_FLAG = $(if $(bsize),bsize=$(bsize))
 all:
 	$(MAKE) -C $(DIR) --silent
 
+bonus:
+	$(MAKE) -C $(DIR) --silent
+
 run:
 	$(MAKE) -C $(DIR) run $(BSIZE_FLAG) --silent
 
