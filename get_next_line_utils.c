@@ -6,7 +6,7 @@
 /*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 12:06:55 by mcaro-ro          #+#    #+#             */
-/*   Updated: 2024/05/28 16:30:33 by mcaro-ro         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:46:51 by mcaro-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	ft_set_content_cleaned(t_list **list_head, char *str)
 	int		i_c;
 	int		i_str;
 
-	if (!list_head)
-		return ;
 	last_node = ft_get_last_node(*list_head);
 	i_c = 0;
 	while (last_node->content[i_c] != NEWLINE_CHAR && last_node->content[i_c])
@@ -83,18 +81,23 @@ void	ft_clean_list(t_list **list_head)
 	if (!list_head)
 		return ;
 	str = malloc(BUFFER_SIZE + NULL_TERMINATE_SIZE);
-	new_head = malloc(sizeof(t_list));
-	if (!new_head || !str)
+	if (!str)
 		return ;
+	new_head = malloc(sizeof(t_list));
+	if (!new_head)
+	{
+		free(str);
+		return ;
+	}
 	ft_set_content_cleaned(list_head, str);
 	new_head->content = str;
 	new_head->next = NULL;
 	ft_free_list(list_head);
-	if (new_head->content[0] != '\0')
-		*list_head = new_head;
-	else
+	if (*(new_head->content) == '\0')
 	{
 		free(str);
 		free(new_head);
+		return ;
 	}
+	*list_head = new_head;
 }
