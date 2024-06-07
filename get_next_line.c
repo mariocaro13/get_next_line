@@ -47,6 +47,8 @@ void	ft_create_list(t_list **list, int fd)
 		if (bytes_read <= 0)
 		{
 			free (buffer);
+			if (bytes_read < 0)
+				ft_free_list(list);
 			return ;
 		}
 		buffer[bytes_read] = NULL_TERMINATE;
@@ -108,7 +110,7 @@ void	ft_set_line(t_list *node, char *str)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list_head;
+	static t_list	*list_head = NULL;
 	char			*line;
 
 	if (fd < 0)
