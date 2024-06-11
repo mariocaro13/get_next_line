@@ -124,6 +124,11 @@ char	*get_next_line(int fd)
 	if (!line)
 		return (NULL);
 	ft_set_line(list_head, line);
-	ft_clean_list(&list_head);
+	if (ft_clean_list(&list_head))
+	{
+		ft_free_list(&list_head);
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }
