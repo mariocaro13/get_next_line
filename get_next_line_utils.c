@@ -73,25 +73,25 @@ void	ft_set_content_cleaned(t_list **list_head, char *str)
 	str[i_str] = NULL_TERMINATE;
 }
 
-int	ft_clean_list(t_list **list_head)
+void	ft_clean_list(t_list **list_head)
 {
 	t_list	*new_head;
 	char	*str;
 
 	if (!list_head)
-		return (1);
+		return ;
 	str = malloc(BUFFER_SIZE + NULL_TERMINATE_SIZE);
 	if (!str)
-		return (1);
+		return ;
 	new_head = malloc(sizeof(t_list));
 	if (!new_head)
-		return (free(str), 1);
+		return (free(str));
 	ft_set_content_cleaned(list_head, str);
 	new_head->content = str;
 	new_head->next = NULL;
 	ft_free_list(list_head);
 	if (*(new_head->content) == '\0')
-		return (free(str), free(new_head), 1);
+		return (free(str), free(new_head));
 	*list_head = new_head;
-	return (0);
+	return ;
 }

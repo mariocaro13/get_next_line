@@ -22,15 +22,14 @@ void	ft_read_all(int fd)
 	int		i;
 
 	i = 1;
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return ;
-	while (read(fd, buffer, BUFFER_SIZE) > 0)
+	buffer = get_next_line(fd);
+	while (buffer)
 	{
-		printf("Line %i: %s", i, get_next_line(fd));
+		printf("Line %i: %s", i, buffer);
 		i++;
+		free(buffer);
+		buffer = get_next_line(fd);
 	}
-	free(buffer);
 }
 
 void	ft_read_n_lines(int fd, int nb)
@@ -49,7 +48,7 @@ int	main(void)
 {
 	int		fd;
 
-	fd = open("files/si.txt", O_RDONLY);
+	fd = open("files/read_error.txt", O_RDONLY);
 	if (fd > 0)
 		ft_read_all(fd);
 	close(fd);
