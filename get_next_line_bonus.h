@@ -62,7 +62,7 @@ t_list	*ft_get_last_node(t_list *node);
  * @param list Pointer to the pointer of the list (can be NULL).
  * @param fd File descriptor for reading.
  */
-void	ft_create_list(t_list **list, int fd);
+int		ft_create_list(t_list *list_head[], int fd);
 
 /**
  * Adds a new node to the end of the list.
@@ -71,7 +71,7 @@ void	ft_create_list(t_list **list, int fd);
  * @param list_head Pointer to the head node of the list (can be NULL).
  * @param content Char pointer with the content for the new node.
  */
-void	ft_append_node(t_list **list_head, char *conten);
+int		ft_append_node(t_list **list_head, char *content);
 
 /**
  * Calculates the length of a line within the content of a linked list node.
@@ -89,7 +89,7 @@ int		ft_get_linelen(t_list *node);
  * @retrun If 'node' or 'str' is NULL, indicating an empty or non-existent list,
  *      returns immediately.
  */
-void	ft_set_line(t_list *node, char *str);
+int		ft_set_line(t_list *node, char *str);
 
 /**
  * Searches a character in a list by starting by a given node.
@@ -102,5 +102,5 @@ int		ft_find_char_in_list(const t_list *node, const char c);
 
 void	ft_free_list(t_list **list_head);
 void	ft_set_content_cleaned(t_list **list_head, char *str);
-void	ft_clean_list(t_list **list_head);
+int		ft_clean_list(t_list **list_head);
 #endif

@@ -93,5 +93,4 @@ void	ft_clean_list(t_list **list_head)
 	if (*(new_head->content) == '\0')
 		return (free(str), free(new_head));
 	*list_head = new_head;
-	return ;
 }
