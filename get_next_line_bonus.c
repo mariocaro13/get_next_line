@@ -3,62 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcaro-ro <mcaro-ro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 12:33:20 by mcaro-ro          #+#    #+#             */
-/*   Updated: 2024/06/18 12:33:35 by mcaro-ro         ###   ########.fr       */
+/*   Created: 2024/07/01 14:53:59 by mcaro-ro          #+#    #+#             */
+/*   Updated: 2024/07/01 14:55:43 by mcaro-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*get_next_line(int fd)
+void	ft_append_node(t_list **list_head, char *content)
 {
-	static t_list	*list_head[100];
-	char			*line;
+	t_list	*new_node;
+	t_list	*last_node;
 
-	if (fd < 0)
-		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
-		return (NULL);
-	if (!ft_create_list(&list_head[fd], fd))
-		return (NULL);
-	if (!list_head[fd])
-		return (NULL);
-	line = malloc(ft_get_linelen(list_head[fd]) + NULL_TERMINATE_SIZE);
-	if (!line)
-		return (NULL);
-	if (!ft_set_line(list_head[fd], line))
-		return (NULL);
-	if (!ft_clean_list(&list_head[fd]))
-		return (NULL);
-	return (line);
+	if (!list_head)
+		return ;
+	last_node = ft_get_last_node(*list_head);
+	new_node = malloc(sizeof(t_list));
+	if (!new_node)
+		return ;
+	new_node->content = content;
+	new_node->next = NULL;
+	if (!last_node)
+		*list_head = new_node;
+	else
+		last_node->next = new_node;
 }
 
-int	ft_create_list(t_list *list_head[], int fd)
+void	ft_create_list(t_list **list, int fd)
 {
 	char	*buffer;
 	ssize_t	bytes_read;
 
-	if (!list_head[fd] || fd < 0)
-		return (1);
-	while (!ft_find_char_in_list(list_head[fd], NEWLINE_CHAR))
+	if (!list || fd < 0)
+		return ;
+	while (!ft_find_char_in_list(*list, NEWLINE_CHAR))
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
 		if (!buffer)
-			return (1);
+			return ;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read <= 0)
 		{
 			free (buffer);
 			if (bytes_read < 0)
-				return (ft_free_list(list_head), 0);
+				ft_free_list(list);
+			return ;
 		}
 		buffer[bytes_read] = NULL_TERMINATE;
-		if (!ft_append_node(list_head, buffer))
-			return (1);
+		ft_append_node(list, buffer);
 	}
-	return (0);
 }
 
 int	ft_get_linelen(t_list *node)
@@ -66,30 +61,34 @@ int	ft_get_linelen(t_list *node)
 	int	i;
 	int	len;
 
-	len = 0;
 	if (!node)
-		return (len);
+		return (0);
+	len = 0;
 	while (node)
 	{
 		i = 0;
 		while (node->content[i])
 		{
-			if (node->content[i++] == NEWLINE_CHAR)
-				return (++len);
+			if (node->content[i] == NEWLINE_CHAR)
+			{
+				len++;
+				return (len);
+			}
 			len++;
+			i++;
 		}
 		node = node->next;
 	}
 	return (len);
 }
 
-int	ft_set_line(t_list *node, char *str)
+void	ft_set_line(t_list *node, char *str)
 {
-	int	i_content;
-	int	i_str;
+	int		i_content;
+	int		i_str;
 
 	if (!node || !str)
-		return (1);
+		return ;
 	i_str = 0;
 	while (node)
 	{
@@ -100,28 +99,31 @@ int	ft_set_line(t_list *node, char *str)
 			{
 				str[i_str++] = NEWLINE_CHAR;
 				str[i_str] = NULL_TERMINATE;
-				return (0);
+				return ;
 			}
 			str[i_str++] = node->content[i_content++];
 		}
 		node = node->next;
 	}
 	str[i_str] = NULL_TERMINATE;
-	return (0);
 }
 
-void	ft_free_list(t_list **list_head)
+char	*get_next_line(int fd)
 {
-	t_list	*aux;
+	static t_list	*list_head = NULL;
+	char			*line;
 
+	if (fd < 0)
+		return (NULL);
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+		return (NULL);
+	ft_create_list(&list_head, fd);
 	if (!list_head)
-		return ;
-	while (*list_head)
-	{
-		aux = (*list_head)->next;
-		free((*list_head)->content);
-		free(*list_head);
-		*list_head = aux;
-	}
-	*list_head = NULL;
+		return (NULL);
+	line = malloc(ft_get_linelen(list_head) + NULL_TERMINATE_SIZE);
+	if (!line)
+		return (NULL);
+	ft_set_line(list_head, line);
+	ft_clean_list(&list_head);
+	return (line);
 }

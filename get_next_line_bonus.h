@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcaro-ro <mcaro-ro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcaro-ro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 12:33:57 by mcaro-ro          #+#    #+#             */
-/*   Updated: 2024/06/18 12:33:59 by mcaro-ro         ###   ########.fr       */
+/*   Created: 2024/07/01 14:54:10 by mcaro-ro          #+#    #+#             */
+/*   Updated: 2024/07/01 14:55:27 by mcaro-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 
 # include <unistd.h>
@@ -62,7 +62,7 @@ t_list	*ft_get_last_node(t_list *node);
  * @param list Pointer to the pointer of the list (can be NULL).
  * @param fd File descriptor for reading.
  */
-int		ft_create_list(t_list *list_head[], int fd);
+void	ft_create_list(t_list **list, int fd);
 
 /**
  * Adds a new node to the end of the list.
@@ -71,7 +71,7 @@ int		ft_create_list(t_list *list_head[], int fd);
  * @param list_head Pointer to the head node of the list (can be NULL).
  * @param content Char pointer with the content for the new node.
  */
-int		ft_append_node(t_list **list_head, char *content);
+void	ft_append_node(t_list **list_head, char *conten);
 
 /**
  * Calculates the length of a line within the content of a linked list node.
@@ -89,7 +89,7 @@ int		ft_get_linelen(t_list *node);
  * @retrun If 'node' or 'str' is NULL, indicating an empty or non-existent list,
  *      returns immediately.
  */
-int		ft_set_line(t_list *node, char *str);
+void	ft_set_line(t_list *node, char *str);
 
 /**
  * Searches a character in a list by starting by a given node.
@@ -100,7 +100,38 @@ int		ft_set_line(t_list *node, char *str);
  */
 int		ft_find_char_in_list(const t_list *node, const char c);
 
+/**
+ * Free the given list node by node.
+ *
+ * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @return If 'list_head' is NULL, indicating an empty or non-existent list,
+ * 	returns immediately.
+ */
 void	ft_free_list(t_list **list_head);
+
+/**
+ * Setts a str with the content of a node after the new line.
+ *
+ * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @param str Char pointer to the str to be setted.
+ * @return If 'list_head' is NULL, indicating an empty or non-existent list,
+ * 	returns immediately.
+ */
 void	ft_set_content_cleaned(t_list **list_head, char *str);
-int		ft_clean_list(t_list **list_head);
+
+/**
+ * Create new list head with the content after the new line,
+ * 	calling ft_set_content_cleaned.
+ * Then free the list,
+ * 	calling ft_free_list.
+ * If the content of the new head is NULL, free 'str' and the new head.
+ * 	else it setts the 'list_head' to the new head.
+ *
+ * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @return If 'list_head' is NULL, indicating an empty or non-existent list,
+ * 	returns immediately.
+ * @return If alloc of 'new_head' or 'str' fails, 
+ * 	returns immediately.
+ */
+void	ft_clean_list(t_list **list_head);
 #endif
