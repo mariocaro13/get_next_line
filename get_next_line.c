@@ -12,6 +12,51 @@
 
 #include "get_next_line.h"
 
+char	*get_next_line(int fd)
+{
+	static t_list	*list_head;
+	char			*line;
+
+	if (fd < 0)
+		return (NULL);
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+		return (NULL);
+	ft_create_list(&list_head, fd);
+	if (!list_head)
+		return (NULL);
+	line = malloc(ft_get_linelen(list_head) + NULL_TERMINATE_SIZE);
+	if (!line)
+		return (NULL);
+	ft_set_line(list_head, line);
+	ft_clean_list(&list_head);
+	return (line);
+}
+
+void	ft_create_list(t_list **list_head, int fd)
+{
+	char	*buffer;
+	ssize_t	bytes_read;
+
+	if (!list_head || fd < 0)
+		return ;
+	while (!ft_find_char_in_list(*list_head, NEWLINE_CHAR))
+	{
+		buffer = malloc(BUFFER_SIZE + 1);
+		if (!buffer)
+			return ;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read <= 0)
+		{
+			free (buffer);
+			if (bytes_read < 0)
+				ft_free_list(list_head);
+			return ;
+		}
+		buffer[bytes_read] = NULL_TERMINATE;
+		ft_append_node(list_head, buffer);
+	}
+}
+
 void	ft_append_node(t_list **list_head, char *content)
 {
 	t_list	*new_node;
@@ -29,31 +74,6 @@ void	ft_append_node(t_list **list_head, char *content)
 		*list_head = new_node;
 	else
 		last_node->next = new_node;
-}
-
-void	ft_create_list(t_list **list, int fd)
-{
-	char	*buffer;
-	ssize_t	bytes_read;
-
-	if (!list || fd < 0)
-		return ;
-	while (!ft_find_char_in_list(*list, NEWLINE_CHAR))
-	{
-		buffer = malloc(BUFFER_SIZE + 1);
-		if (!buffer)
-			return ;
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read <= 0)
-		{
-			free (buffer);
-			if (bytes_read < 0)
-				ft_free_list(list);
-			return ;
-		}
-		buffer[bytes_read] = NULL_TERMINATE;
-		ft_append_node(list, buffer);
-	}
 }
 
 int	ft_get_linelen(t_list *node)
@@ -106,24 +126,4 @@ void	ft_set_line(t_list *node, char *str)
 		node = node->next;
 	}
 	str[i_str] = NULL_TERMINATE;
-}
-
-char	*get_next_line(int fd)
-{
-	static t_list	*list_head = NULL;
-	char			*line;
-
-	if (fd < 0)
-		return (NULL);
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
-		return (NULL);
-	ft_create_list(&list_head, fd);
-	if (!list_head)
-		return (NULL);
-	line = malloc(ft_get_linelen(list_head) + NULL_TERMINATE_SIZE);
-	if (!line)
-		return (NULL);
-	ft_set_line(list_head, line);
-	ft_clean_list(&list_head);
-	return (line);
 }

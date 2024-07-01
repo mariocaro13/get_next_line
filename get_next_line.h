@@ -62,7 +62,7 @@ t_list	*ft_get_last_node(t_list *node);
  * @param list Pointer to the pointer of the list (can be NULL).
  * @param fd File descriptor for reading.
  */
-void	ft_create_list(t_list **list, int fd);
+void	ft_create_list(t_list **list_head, int fd);
 
 /**
  * Adds a new node to the end of the list.
@@ -103,7 +103,7 @@ int		ft_find_char_in_list(const t_list *node, const char c);
 /**
  * Free the given list node by node.
  *
- * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @param list_head Double pointer to the head of the List (can be NULL).
  * @return If 'list_head' is NULL, indicating an empty or non-existent list,
  * 	returns immediately.
  */
@@ -112,7 +112,7 @@ void	ft_free_list(t_list **list_head);
 /**
  * Setts a str with the content of a node after the new line.
  *
- * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @param list_head Double pointer to the head of the List (can be NULL).
  * @param str Char pointer to the str to be setted.
  * @return If 'list_head' is NULL, indicating an empty or non-existent list,
  * 	returns immediately.
@@ -127,7 +127,7 @@ void	ft_set_content_cleaned(t_list **list_head, char *str);
  * If the content of the new head is NULL, free 'str' and the new head.
  * 	else it setts the 'list_head' to the new head.
  *
- * @param list_head Doble pointer to the head of the List (can be NULL).
+ * @param list_head Double pointer to the head of the List (can be NULL).
  * @return If 'list_head' is NULL, indicating an empty or non-existent list,
  * 	returns immediately.
  * @return If alloc of 'new_head' or 'str' fails, 
